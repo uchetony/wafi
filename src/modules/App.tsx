@@ -1,12 +1,10 @@
-import React from 'react';
-import { Route, Switch } from 'react-router-dom';
-import ProtectedRoute from '../components/ProtectedRoute';
+import React from "react";
+import { Route, Switch } from "react-router-dom";
+import ProtectedRoute from "../components/ProtectedRoute";
 
-
-// import LandingPage = React.lazy(() => import('./landing/LandingPage'));
-const LandingPage = React.lazy(() => import('./landing/LandingPage'));
-const Home = React.lazy(() => import('./home/Home'));
-const AccessPages = React.lazy(() => import('./access'));
+const LandingPage = React.lazy(() => import("./landing/LandingPage"));
+const Home = React.lazy(() => import("./home/Home"));
+const AccessPages = React.lazy(() => import("./access"));
 
 function App() {
   return (
