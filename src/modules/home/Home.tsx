@@ -43,19 +43,19 @@ const Home = (): JSX.Element => {
       amount: +fundsTransferFormValues.amount,
       recipientUsername: fundsTransferFormValues.recipientUsername,
     });
-    history.push("/app");
+    window.location.reload();
   };
 
   const handleFundsDeposit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     depositMoney({ amount: +event.currentTarget.amount.value });
-    history.push("/app");
+    window.location.reload();
   };
 
   const handleFundsWithdrawal = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     withdrawMoney({ amount: +event.currentTarget.amount.value });
-    history.push("/app");
+    window.location.reload();
   };
 
   return (
@@ -78,7 +78,7 @@ const Home = (): JSX.Element => {
             <h1>Transfer funds</h1>
           </div>
           {fundTransferFormInput.map((item) => (
-            <div key={item.label} className="formGroup">
+            <div key={item.label} className="form-group">
               <label>{item.label}</label>
               <div className="input-field">
                 <input
@@ -96,7 +96,7 @@ const Home = (): JSX.Element => {
           <div className="header">
             <h1>Deposit funds</h1>
           </div>
-          <div className="formGroup">
+          <div className="form-group">
             <label>Amount($)</label>
             <div className="input-field">
               <input type="number" placeholder="e.g 100" name="amount" />
@@ -109,7 +109,7 @@ const Home = (): JSX.Element => {
           <div className="header">
             <h1>Withdraw funds</h1>
           </div>
-          <div className="formGroup">
+          <div className="form-group">
             <label>Amount($)</label>
             <div className="input-field">
               <input type="number" placeholder="e.g 100" name="amount" />

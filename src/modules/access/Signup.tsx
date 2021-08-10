@@ -60,7 +60,7 @@ const Signup = (): JSX.Element => {
             <h1>Wafi Sign up</h1>
           </div>
           {signupFormInput.map((item) => (
-            <div key={item.label} className="formGroup">
+            <div key={item.label} className="form-group">
               <label>{item.label}</label>
               <div className="input-field">
                 <input

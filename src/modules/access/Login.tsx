@@ -38,7 +38,7 @@ const Login = (): JSX.Element => {
             <h1>Wafi Login</h1>
           </div>
           {loginFormInput.map((item) => (
-            <div key={item.label} className="formGroup">
+            <div key={item.label} className="form-group">
               <label>{item.label}</label>
               <div className="input-field">
                 <input
