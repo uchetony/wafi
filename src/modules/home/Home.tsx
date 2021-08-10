@@ -89,7 +89,9 @@ const Home = (): JSX.Element => {
               </div>
             </div>
           ))}
-          <button type="submit">Transfer</button>
+          <button type="submit" data-testid="transfers-button">
+            Transfer
+          </button>
         </form>
         <hr />
         <form onSubmit={handleFundsDeposit} className="form">
@@ -102,7 +104,9 @@ const Home = (): JSX.Element => {
               <input type="number" placeholder="e.g 100" name="amount" />
             </div>
           </div>
-          <button type="submit">Deposit</button>
+          <button type="submit" data-testid="deposits-button">
+            Deposit
+          </button>
         </form>
         <hr />
         <form onSubmit={handleFundsWithdrawal} className="form">
@@ -115,7 +119,9 @@ const Home = (): JSX.Element => {
               <input type="number" placeholder="e.g 100" name="amount" />
             </div>
           </div>
-          <button type="submit">Withdraw</button>
+          <button type="submit" data-testid="withdrawal-button">
+            Withdraw
+          </button>
         </form>
       </div>
     </div>

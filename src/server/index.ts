@@ -1,5 +1,5 @@
 const dbKey = "wafi-test-database";
-const dbData = localStorage.getItem(dbKey);
+export const dbData = localStorage.getItem(dbKey);
 
 const db: IUser[] = dbData ? JSON.parse(dbData) : [];
 
@@ -64,8 +64,7 @@ const transferMoney = ({
   amount: number;
 }) => {
   const mutatedDb = [...db];
-  const currentUserData = localStorage.getItem("current_user");
-  const currentUser: IUser = currentUserData ? JSON.parse(currentUserData) : {};
+  const currentUser: IUser = getCurrentUser();
 
   const currentUserDbIndex = db.findIndex(
     (dbUser) => dbUser.username === currentUser.username
@@ -90,8 +89,7 @@ const transferMoney = ({
 
 const depositMoney = ({ amount }: { amount: number }) => {
   const mutatedDb = [...db];
-  const currentUserData = localStorage.getItem("current_user");
-  const currentUser: IUser = currentUserData ? JSON.parse(currentUserData) : {};
+  const currentUser: IUser = getCurrentUser();
 
   const currentUserDbIndex = db.findIndex(
     (dbUser) => dbUser.username === currentUser.username
@@ -110,8 +108,7 @@ const depositMoney = ({ amount }: { amount: number }) => {
 
 const withdrawMoney = ({ amount }: { amount: number }) => {
   const mutatedDb = [...db];
-  const currentUserData = localStorage.getItem("current_user");
-  const currentUser: IUser = currentUserData ? JSON.parse(currentUserData) : {};
+  const currentUser: IUser = getCurrentUser();
 
   const currentUserDbIndex = db.findIndex(
     (dbUser) => dbUser.username === currentUser.username
