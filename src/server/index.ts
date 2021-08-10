@@ -3,84 +3,102 @@ const dbData = localStorage.getItem(dbKey)
 
 const db: IUser[] = dbData ? JSON.parse(dbData) : [];
 
-type IUser = {
+export type IUser = {
     first_name: string;
     last_name: string;
     email: string;
     password?: string;
     wallet_balance: number;
-    user_name: string;
+    username: string;
 }
 
 const existingUser: IUser = {
-    first_name: "Anthony",
+    first_name: "Anthony Uche",
     last_name: "Uche",
     email: "uchetony007@gmail.com",
     password: "Wafi123!",
     wallet_balance: 100,
-    user_name: "uchetony007"
+    username: "uchetony007"
 }
 
 const seedDb = () => {
-    const mutatedDb = db.push(existingUser)
+    const mutatedDb = [...db];
+    mutatedDb.push(existingUser);
     localStorage.setItem(dbKey, JSON.stringify(mutatedDb))
 }
 
-const addUser = (user: IUser) => {
-    const mutatedDb = db.push(user);
+const addUser = (user: Omit<IUser,'wallet_balance'>) => {
+    const mutatedDb = [...db];
+    mutatedDb.push({ ...user, wallet_balance: 0 });
     localStorage.setItem(dbKey, JSON.stringify(mutatedDb))
 }
 
-const loginUser = (email: string, password: string) => {
-    const newUser = db.find(dbUser => {
+const getCurrentUser = () => {
+    const currentUserData = localStorage.getItem('current_user');
+    const currentUser = currentUserData ? JSON.parse(currentUserData) : {};
+    return currentUser;
+}
+
+const loginUser = ({email, password}: {email: string; password: string}) => {
+    const newUser = db.find(dbUser => (
         dbUser.email === email && dbUser.password === password
-    });
-    localStorage.setItem('current_user', JSON.stringify(newUser));
-    return newUser || null;
+    ));
+    newUser && localStorage.setItem('current_user', JSON.stringify(newUser));
 }
 
 const signoutUser = () => {
     localStorage.removeItem('current_user');
 }
 
-const transferMoney = (recipientUserName: string, amount: number) => {
+const transferMoney = ({recipientUsername, amount}: {recipientUsername: string; amount: number}) => {
     const mutatedDb = [...db];
     const currentUserData = localStorage.getItem('current_user');
     const currentUser: IUser = currentUserData ? JSON.parse(currentUserData) : {}
 
-    const currentUserDbIndex = db.findIndex((dbUser) => dbUser.user_name === currentUser.user_name);
-    const recipientUserDbIndex = db.findIndex((dbUser) => dbUser.user_name === recipientUserName);
-    mutatedDb[currentUserDbIndex].wallet_balance = mutatedDb[currentUserDbIndex].wallet_balance - amount;
-    mutatedDb[recipientUserDbIndex].wallet_balance = mutatedDb[recipientUserDbIndex].wallet_balance + amount;
+    const currentUserDbIndex = db.findIndex((dbUser) => dbUser.username === currentUser.username);
+    const recipientUserDbIndex = db.findIndex((dbUser) => dbUser.username === recipientUsername);
+
+    if (recipientUserDbIndex !== -1 && currentUserDbIndex !== -1) {
+        mutatedDb[currentUserDbIndex].wallet_balance = db[currentUserDbIndex]?.wallet_balance - amount;
+        mutatedDb[recipientUserDbIndex].wallet_balance = db[recipientUserDbIndex]?.wallet_balance + amount;
+    }
 
     localStorage.setItem(dbKey, JSON.stringify(mutatedDb));
+    localStorage.setItem('current_user', JSON.stringify({ ...mutatedDb[currentUserDbIndex] }));
 }
 
-const depositMoney = (amount: number) => {
+const depositMoney = ({amount}: {amount: number}) => {
     const mutatedDb = [...db];
     const currentUserData = localStorage.getItem('current_user');
     const currentUser: IUser = currentUserData ? JSON.parse(currentUserData) : {}
 
-    const currentUserDbIndex = db.findIndex((dbUser) => dbUser.user_name === currentUser.user_name);
-    mutatedDb[currentUserDbIndex].wallet_balance = mutatedDb[currentUserDbIndex].wallet_balance + amount;
+    const currentUserDbIndex = db.findIndex((dbUser) => dbUser.username === currentUser.username);
+    if (currentUserDbIndex !== -1) {
+        mutatedDb[currentUserDbIndex].wallet_balance = db[currentUserDbIndex].wallet_balance + amount;
+    }
 
     localStorage.setItem(dbKey, JSON.stringify(mutatedDb));
+    localStorage.setItem('current_user', JSON.stringify({ ...mutatedDb[currentUserDbIndex] }));
 }
 
-const withdrawMoney = (amount: number) => {
+const withdrawMoney = ({amount}: {amount: number}) => {
     const mutatedDb = [...db];
     const currentUserData = localStorage.getItem('current_user');
     const currentUser: IUser = currentUserData ? JSON.parse(currentUserData) : {}
 
-    const currentUserDbIndex = db.findIndex((dbUser) => dbUser.user_name === currentUser.user_name);
-    mutatedDb[currentUserDbIndex].wallet_balance = mutatedDb[currentUserDbIndex].wallet_balance - amount;
+    const currentUserDbIndex = db.findIndex((dbUser) => dbUser.username === currentUser.username);
+    if (currentUserDbIndex !== -1) {
+        mutatedDb[currentUserDbIndex].wallet_balance = db[currentUserDbIndex].wallet_balance - amount;
+    }
 
     localStorage.setItem(dbKey, JSON.stringify(mutatedDb));
+    localStorage.setItem('current_user', JSON.stringify({ ...mutatedDb[currentUserDbIndex] }));
 }
 
 export {
     seedDb,
     addUser,
+    getCurrentUser,
     loginUser,
     signoutUser,
     transferMoney,
