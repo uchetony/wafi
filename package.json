@@ -44,7 +44,6 @@
   "devDependencies": {
     "@types/node-sass": "^4.11.2",
     "@types/react-router-dom": "^5.1.8",
-    "cypress": "^8.2.0",
     "node-sass": "4.14.1"
   }
 }

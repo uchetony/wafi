@@ -45,6 +45,7 @@ const Login = (): JSX.Element => {
                   type={item.type}
                   placeholder={item.placeholder}
                   name={item.label.toLowerCase()}
+                  id={`wafi-login-form${item.label.toLowerCase()}-input`}
                 />
               </div>
             </div>
